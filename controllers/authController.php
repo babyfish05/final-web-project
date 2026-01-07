@@ -6,6 +6,7 @@ $action = $_GET["action"] ?? "";
 
 /* ================= LOGIN ================= */
 if ($action === "login") {
+
     $user = UserModel::findByEmail($_POST["email"]);
 
     if (!$user || !password_verify($_POST["password"], $user["password"])) {
@@ -14,20 +15,27 @@ if ($action === "login") {
         exit;
     }
 
-    $_SESSION["user_id"] = $user["id"];
-    header("Location: /final-web-project/view/dashboard.php");
-    exit;
-}
+    // Set session login
+    $_SESSION["user"] = [
+        "id" => $user["id"],
+        "name" => $user["name"],
+        "email" => $user["email"]
+    ];
 
-/* ================= REGISTER ================= */
+    // HARUS LEWAT INDEX → CONTROLLER DASHBOARD
+    header("Location: /final-web-project/index.php?page=dashboard");
+    exit;
+    /* ================= REGISTER ================= */
 if ($action === "register") {
     $name     = $_POST["name"];
     $email    = $_POST["email"];
-    $password = $_POST["password"]; // jangan di-hash di sini
+    $password = password_hash($_POST["password"], PASSWORD_DEFAULT); // HARUS di-hash di sini
 
     UserModel::create($name, $email, $password);
 
     $_SESSION["success"] = "Registrasi berhasil, silakan login";
     header("Location: /final-web-project/view/auth/login.php");
     exit;
+}
+
 }
