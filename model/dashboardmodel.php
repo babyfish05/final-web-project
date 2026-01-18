@@ -14,36 +14,56 @@ class DashboardModel
 
     public function getTotalProduk()
     {
-        $q = mysqli_query($this->conn, "SELECT COUNT(*) AS total FROM produk");
-        $r = mysqli_fetch_assoc($q);
-        return $r['total'];
+        $result = mysqli_query(
+            $this->conn,
+            "SELECT COUNT(*) AS total FROM produk"
+        );
+        return mysqli_fetch_assoc($result)['total'];
     }
 
     public function getTotalKategori()
     {
-        $q = mysqli_query($this->conn, "SELECT COUNT(*) AS total FROM kategori");
-        $r = mysqli_fetch_assoc($q);
-        return $r['total'];
+        $result = mysqli_query(
+            $this->conn,
+            "SELECT COUNT(*) AS total FROM kategori"
+        );
+        return mysqli_fetch_assoc($result)['total'];
     }
 
     public function getTotalBrand()
     {
-        $q = mysqli_query($this->conn, "SELECT COUNT(*) AS total FROM brand");
-        $r = mysqli_fetch_assoc($q);
-        return $r['total'];
+        $result = mysqli_query(
+            $this->conn,
+            "SELECT COUNT(*) AS total FROM brand"
+        );
+        return mysqli_fetch_assoc($result)['total'];
     }
 
     public function getTotalSatuan()
     {
-        $q = mysqli_query($this->conn, "SELECT COUNT(*) AS total FROM satuan");
-        $r = mysqli_fetch_assoc($q);
-        return $r['total'];
+        $result = mysqli_query(
+            $this->conn,
+            "SELECT COUNT(*) AS total FROM satuan"
+        );
+        return mysqli_fetch_assoc($result)['total'];
     }
 
+    public function getTotalStok()
+    {
+        $result = mysqli_query(
+            $this->conn,
+            "SELECT SUM(jumlah_stok) AS total FROM stok"
+        );
+        return mysqli_fetch_assoc($result)['total'];
+    }
     public function getStokActivity()
     {
-        $q = mysqli_query($this->conn, "SELECT SUM(jumlah_stok) AS total_stok FROM stok");
+        $q = mysqli_query(
+            $this->conn,
+            "SELECT SUM(jumlah_stok) AS total FROM stok"
+        );
+
         $r = mysqli_fetch_assoc($q);
-        return $r['total_stok'];
+        return $r['total'] ?? 0;
     }
 }

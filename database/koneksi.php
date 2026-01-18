@@ -1,12 +1,6 @@
 <?php
-
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "skincare";
-
-$conn = mysqli_connect($host, $user, $pass, $db);
+$conn = mysqli_connect("localhost", "root", "", "skincare");
 
 if (!$conn) {
-    die("Koneksi database gagal: " . mysqli_connect_error());
+    die("Koneksi gagal: " . mysqli_connect_error());
 }
