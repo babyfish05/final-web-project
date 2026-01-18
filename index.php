@@ -1,6 +1,19 @@
 <?php
+session_start();
 
-require_once __DIR__ . '/controllers/DashboardController.php';
+$page = $_GET['page'] ?? 'dashboard';
 
-$dashboard = new DashboardController();
-$dashboard->index();
+switch ($page) {
+    case 'kategori':
+        require_once __DIR__ . '/controllers/kategoriController.php';
+        $controller = new kategoriController();
+        $controller->index();
+        break;
+
+    case 'dashboard':
+    default:
+        require_once __DIR__ . '/controllers/DashboardController.php';
+        $controller = new DashboardController();
+        $controller->index();
+        break;
+}

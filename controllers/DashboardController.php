@@ -4,23 +4,17 @@ require_once __DIR__ . '/../model/DashboardModel.php';
 
 class DashboardController
 {
-    private $model;
-
-    public function __construct()
-    {
-        $this->model = new DashboardModel();
-    }
-
     public function index()
     {
-        $data = [
-            'totalProduk'   => $this->model->getTotalProduk(),
-            'totalKategori' => $this->model->getTotalKategori(),
-            'totalBrand'    => $this->model->getTotalBrand(),
-            'totalSatuan'   => $this->model->getTotalSatuan(),
-            'stokActivity'  => $this->model->getStokActivity()
-        ];
+        $model = new DashboardModel();
 
-        require_once __DIR__ . '/../view/dashboard.php';
+$data = [
+    'totalProduk'   => $model->getTotalProduk(),
+    'totalKategori' => $model->getTotalKategori(),
+    'totalBrand'    => $model->getTotalBrand(),
+    'totalSatuan'   => $model->getTotalSatuan(),
+    'stokActivity'  => $model->getStokActivity()
+];
+        require __DIR__ . '/../view/dashboard.php';
     }
 }
