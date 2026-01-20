@@ -1,0 +1,243 @@
+/* TITLE */
+h1{
+    margin-bottom: 20px;
+    font-size: 32px;
+    font-weight: 600;
+    color: #444;
+}
+
+/* BUTTON TAMBAH */
+.btn-tambah {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 18px;
+    border: none;
+    border-radius: 12px;
+
+    background-color: #e9f7f1;
+    color: #6b7280;
+
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+
+    transition: background-color .2s ease;
+}
+
+.btn-tambah .icon {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.btn-tambah:hover {
+    background-color: #ddf1e8;
+}
+
+/* DATE CARD */
+.date-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.date-card span {
+    background: #fff;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #555;
+    box-shadow: 0 2px 6px rgba(0,0,0,.04);
+}
+
+.date-card .day {
+    font-weight: 600;
+}
+/* WRAP AKSI */
+.aksi {
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* BUTTON ICON */
+.btn-aksi {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    font-size: 16px;
+    margin-left: 10px;
+    padding: 6px;
+
+    border-radius: 6px;
+    transition: background .2s ease, transform .1s ease;
+}
+
+/* HOVER HALUS */
+.btn-aksi:hover {
+    background: #f1f4f8;
+}
+
+/* ACTIVE */
+.btn-aksi:active {
+    transform: scale(0.95);
+}
+
+/* WARNA */
+.btn-aksi.edit {
+    color: #f4b400;
+}
+
+.btn-aksi.delete {
+    color: #b22222;
+}
+
+/* TOOLBAR */
+.toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    padding: 14px 16px;
+    border-radius: 12px 12px 0 0;
+}
+
+/* SEARCH BOX */
+.search-box {
+    margin-left: auto;
+    position: relative;
+}
+
+.search-box input {
+    padding: 8px 34px 8px 14px;
+    border-radius: 18px;
+    border: 1px solid #e5e7eb;
+    font-size: 13px;
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: #c7d2fe;
+}
+
+.search-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    opacity: .5;
+}
+
+/* TABLE */
+.table {
+    width: 100%;
+    background: #fff;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 0 0 12px 12px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background: #f1f4f8;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #8b9199;
+    text-align: left;
+}
+
+.table tbody td {
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #444;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table tbody tr:hover {
+    background: #f7f9fc;
+}
+
+/* AKSI */
+.aksi {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.aksi a {
+    margin-left: 10px;
+    font-size: 16px;
+    opacity: .7;
+    transition: opacity .2s ease;
+}
+
+.aksi a:hover {
+    opacity: 1;
+}
+
+.aksi .delete {
+    color: #b22222;
+}
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.4);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    width: 400px;
+    border-radius: 8px;
+}
+
+.modal-content h2 {
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+}
+
+.form-action {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-batal {
+    background: #ccc;
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-simpan {
+    background: #4CAF50;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+}
