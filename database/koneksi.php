@@ -1,6 +1,6 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "skincare");
+$conn = mysqli_connect("localhost", "root", "", "skincare");
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if (!$conn) {
+    die("Koneksi gagal: " . mysqli_connect_error());
 }
