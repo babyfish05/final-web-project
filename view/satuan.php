@@ -1,5 +1,5 @@
 <?php
-$active = 'brand';
+$active = 'satuan';
 require_once __DIR__ . '/partials/header.php';
 ?>
 
@@ -7,7 +7,7 @@ require_once __DIR__ . '/partials/header.php';
 <?php require_once __DIR__ . '/partials/sidebar.php'; ?>
 
 <main class="content">
-    <h1 class="page-title">Brand</h1>
+    <h1 class="page-title">Satuan</h1>
 
     <div class="date-card">
         <span class="date">Date: <?= date('d/m/Y') ?></span>
@@ -30,30 +30,30 @@ require_once __DIR__ . '/partials/header.php';
         <thead>
             <tr>
                 <th style="width:80px;">No</th>
-                <th>Nama Brand</th>
+                <th>Nama Satuan</th>
                 <th style="width:120px;">Aksi</th>
             </tr>
         </thead>
         <tbody>
-        <?php if (!empty($brand)): ?>
+        <?php if (!empty($satuan)): ?>
             <?php $no = 1; ?>
-            <?php foreach ($brand as $row): ?>
+            <?php foreach ($satuan as $row): ?>
             <tr>
                 <td><?= $no++; ?></td>
-                <td><?= htmlspecialchars($row['nama_brand']); ?></td>
+                <td><?= htmlspecialchars($row['nama_satuan']); ?></td>
                 <td class="aksi">
                     <button class="btn-aksi edit"
                         onclick="openEdit(
-                            '<?= $row['id_brand']; ?>',
-                            '<?= htmlspecialchars($row['nama_brand'], ENT_QUOTES); ?>'
+                            '<?= $row['id_satuan']; ?>',
+                            '<?= htmlspecialchars($row['nama_satuan'], ENT_QUOTES); ?>'
                         )">
                         <i class="fa-regular fa-pen-to-square"></i>
                     </button>
 
                     <button class="btn-aksi delete"
                         onclick="confirmDelete(
-                            '<?= $row['id_brand']; ?>',
-                            '<?= htmlspecialchars($row['nama_brand'], ENT_QUOTES); ?>'
+                            '<?= $row['id_satuan']; ?>',
+                            '<?= htmlspecialchars($row['nama_satuan'], ENT_QUOTES); ?>'
                         )">
                         <i class="fa-regular fa-trash-can"></i>
                     </button>
@@ -62,7 +62,7 @@ require_once __DIR__ . '/partials/header.php';
             <?php endforeach; ?>
         <?php else: ?>
             <tr>
-                <td colspan="3" class="empty">Tidak ada data brand</td>
+                <td colspan="3" class="empty">Tidak ada data satuan</td>
             </tr>
         <?php endif; ?>
         </tbody>
@@ -70,9 +70,9 @@ require_once __DIR__ . '/partials/header.php';
 </main>
 </div>
 
-<form method="post" id="formBrand" style="display:none;">
-    <input type="hidden" name="id_brand" id="id_brand">
-    <input type="hidden" name="nama_brand" id="nama_brand">
+<form method="post" id="formSatuan" style="display:none;">
+    <input type="hidden" name="id_satuan" id="id_satuan">
+    <input type="hidden" name="nama_satuan" id="nama_satuan">
 </form>
 
 <form method="post" id="formDelete" style="display:none;">
@@ -82,46 +82,50 @@ require_once __DIR__ . '/partials/header.php';
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
+/*  TAMBAH  */
 function openTambah() {
     Swal.fire({
-        title: 'Tambah Brand',
+        title: 'Tambah Satuan',
         input: 'text',
-        inputPlaceholder: 'Masukkan nama brand',
+        inputPlaceholder: 'Masukkan nama satuan',
         showCancelButton: true,
         confirmButtonText: 'Simpan',
         cancelButtonText: 'Batal',
         inputValidator: value => {
-            if (!value) return 'Nama brand wajib diisi!';
+            if (!value) return 'Nama satuan wajib diisi!';
         }
     }).then(result => {
         if (result.isConfirmed) {
-            id_brand.value = '';
-            nama_brand.value = result.value;
-            formBrand.submit();
+            document.getElementById('id_satuan').value = ''; // 🔥 RESET ID
+            document.getElementById('nama_satuan').value = result.value;
+            document.getElementById('formSatuan').submit();
         }
     });
 }
 
+
+/*  EDIT  */
 function openEdit(id, nama) {
     Swal.fire({
-        title: 'Edit Brand',
+        title: 'Edit Satuan',
         input: 'text',
         inputValue: nama,
         showCancelButton: true,
         confirmButtonText: 'Update',
         cancelButtonText: 'Batal',
         inputValidator: value => {
-            if (!value) return 'Nama brand tidak boleh kosong!';
+            if (!value) return 'Nama satuan tidak boleh kosong!';
         }
     }).then(result => {
         if (result.isConfirmed) {
-            id_brand.value = id;
-            nama_brand.value = result.value;
-            formBrand.submit();
+            document.getElementById('id_satuan').value = id;
+            document.getElementById('nama_satuan').value = result.value;
+            document.getElementById('formSatuan').submit();
         }
     });
 }
 
+/*  HAPUS  */
 function confirmDelete(id, nama) {
     Swal.fire({
         title: 'Hapus Data?',
@@ -133,8 +137,8 @@ function confirmDelete(id, nama) {
         reverseButtons: true
     }).then(result => {
         if (result.isConfirmed) {
-            hapus_id.value = id;
-            formDelete.submit();
+            document.getElementById('hapus_id').value = id;
+            document.getElementById('formDelete').submit();
         }
     });
 }

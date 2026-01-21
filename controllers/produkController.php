@@ -1,30 +1,58 @@
 <?php
-require_once "model/ProdukModel.php";
+require_once __DIR__ . '/../model/produkmodel.php';
+require_once __DIR__ . '/../model/kategorimodel.php';
+require_once __DIR__ . '/../model/brandmodel.php';
+require_once __DIR__ . '/../model/satuanmodel.php';
 
 class ProdukController {
-    private $model;
+
+    private $produkModel;
+    private $kategoriModel;
+    private $brandModel;
+    private $satuanModel;
 
     public function __construct() {
-        $this->model = new ProdukModel();
+        $this->produkModel   = new ProdukModel();
+        $this->kategoriModel = new KategoriModel();
+        $this->brandModel    = new BrandModel();
+        $this->satuanModel   = new SatuanModel();
     }
 
     public function index() {
-        $produk = $this->model->getAll();
-        $brand  = $this->model->getBrand();
-        require_once "view/produk.php";
-    }
 
-    public function store() {
-        $this->model->insert(
-            $_POST['nama_produk'],
-            $_POST['harga'],
-            $_POST['id_brand']
-        );
-        header("Location: bren.php?page=produk");
-    }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    public function delete($id) {
-        $this->model->delete($id);
-        header("Location: bren.php?page=produk");
+            if (isset($_POST['hapus_id'])) {
+                $this->produkModel->delete($_POST['hapus_id']);
+                header("Location: index.php?page=produk");
+                exit;
+            }
+
+            if (isset($_POST['nama_produk'])) {
+                $data = [
+                    'nama_produk' => $_POST['nama_produk'],
+                    'id_kategori' => $_POST['id_kategori'],
+                    'id_brand'    => $_POST['id_brand'],
+                    'id_satuan'   => $_POST['id_satuan'],
+                    'harga'       => $_POST['harga']
+                ];
+
+                if (empty($_POST['id_produk'])) {
+                    $this->produkModel->insert($data);
+                } else {
+                    $this->produkModel->update($_POST['id_produk'], $data);
+                }
+
+                header("Location: index.php?page=produk");
+                exit;
+            }
+        }
+
+        $produk   = $this->produkModel->getAll();
+        $kategori = $this->kategoriModel->getAll();
+        $brand    = $this->brandModel->getAll();
+        $satuan   = $this->satuanModel->getAll();
+
+        require_once __DIR__ . '/../view/produk.php';
     }
 }
