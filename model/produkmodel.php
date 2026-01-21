@@ -1,40 +1,62 @@
 <?php
-require_once "config/Database.php";
-
 class ProdukModel {
     private $conn;
 
     public function __construct() {
-        $db = new Database();
-        $this->conn = $db->conn;
+        $this->conn = new mysqli("localhost","root","","skincare");
     }
 
     public function getAll() {
-        $sql = "SELECT produk.*, brand.nama_brand
-                FROM produk
-                JOIN brand ON produk.id_brand = brand.id_brand
-                ORDER BY id_produk DESC";
-        return $this->conn->query($sql);
+        $sql = "
+            SELECT p.*, 
+                   k.nama_kategori, 
+                   b.nama_brand, 
+                   s.nama_satuan
+            FROM produk p
+            JOIN kategori k ON p.id_kategori = k.id_kategori
+            JOIN brand b ON p.id_brand = b.id_brand
+            JOIN satuan s ON p.id_satuan = s.id_satuan
+            ORDER BY p.id_produk ASC
+        ";
+        return $this->conn->query($sql)->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getBrand() {
-        return $this->conn->query("SELECT * FROM brand");
+    public function insert($data) {
+        $stmt = $this->conn->prepare(
+            "INSERT INTO produk (nama_produk,id_kategori,id_brand,id_satuan,harga)
+             VALUES (?,?,?,?,?)"
+        );
+        $stmt->bind_param(
+            "siiii",
+            $data['nama_produk'],
+            $data['id_kategori'],
+            $data['id_brand'],
+            $data['id_satuan'],
+            $data['harga']
+        );
+        return $stmt->execute();
     }
 
-    public function insert($nama, $harga, $id_brand) {
-        $sql = "INSERT INTO produk (nama_produk, harga, id_brand)
-                VALUES (:nama, :harga, :id_brand)";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':nama', $nama);
-        $stmt->bindParam(':harga', $harga);
-        $stmt->bindParam(':id_brand', $id_brand);
-        $stmt->execute();
+    public function update($id, $data) {
+        $stmt = $this->conn->prepare(
+            "UPDATE produk SET nama_produk=?, id_kategori=?, id_brand=?, id_satuan=?, harga=?
+             WHERE id_produk=?"
+        );
+        $stmt->bind_param(
+            "siiiii",
+            $data['nama_produk'],
+            $data['id_kategori'],
+            $data['id_brand'],
+            $data['id_satuan'],
+            $data['harga'],
+            $id
+        );
+        return $stmt->execute();
     }
 
     public function delete($id) {
-        $sql = "DELETE FROM produk WHERE id_produk = :id";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
+        $stmt = $this->conn->prepare("DELETE FROM produk WHERE id_produk=?");
+        $stmt->bind_param("i",$id);
+        return $stmt->execute();
     }
 }

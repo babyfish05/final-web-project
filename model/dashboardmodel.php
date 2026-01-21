@@ -8,8 +8,7 @@ class DashboardModel
 
     public function __construct()
     {
-        global $conn;
-        $this->conn = $conn;
+        $this->conn = koneksi();
     }
 
     public function getTotalProduk()
@@ -18,7 +17,7 @@ class DashboardModel
             $this->conn,
             "SELECT COUNT(*) AS total FROM produk"
         );
-        return mysqli_fetch_assoc($result)['total'];
+        return mysqli_fetch_assoc($result)['total'] ?? 0;
     }
 
     public function getTotalKategori()
@@ -27,7 +26,7 @@ class DashboardModel
             $this->conn,
             "SELECT COUNT(*) AS total FROM kategori"
         );
-        return mysqli_fetch_assoc($result)['total'];
+        return mysqli_fetch_assoc($result)['total'] ?? 0;
     }
 
     public function getTotalBrand()
@@ -36,7 +35,7 @@ class DashboardModel
             $this->conn,
             "SELECT COUNT(*) AS total FROM brand"
         );
-        return mysqli_fetch_assoc($result)['total'];
+        return mysqli_fetch_assoc($result)['total'] ?? 0;
     }
 
     public function getTotalSatuan()
@@ -45,7 +44,7 @@ class DashboardModel
             $this->conn,
             "SELECT COUNT(*) AS total FROM satuan"
         );
-        return mysqli_fetch_assoc($result)['total'];
+        return mysqli_fetch_assoc($result)['total'] ?? 0;
     }
 
     public function getTotalStok()
@@ -54,16 +53,15 @@ class DashboardModel
             $this->conn,
             "SELECT SUM(jumlah_stok) AS total FROM stok"
         );
-        return mysqli_fetch_assoc($result)['total'];
+        return mysqli_fetch_assoc($result)['total'] ?? 0;
     }
+
     public function getStokActivity()
     {
-        $q = mysqli_query(
+        $result = mysqli_query(
             $this->conn,
             "SELECT SUM(jumlah_stok) AS total FROM stok"
         );
-
-        $r = mysqli_fetch_assoc($q);
-        return $r['total'] ?? 0;
+        return mysqli_fetch_assoc($result)['total'] ?? 0;
     }
 }
