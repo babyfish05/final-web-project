@@ -1,33 +1,34 @@
 <?php
 require_once __DIR__ . '/../database/koneksi.php';
 
-class Stok
-{
+class Stok {
     private $conn;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->conn = koneksi();
     }
 
-    // Ambil stok + data produk
-    public function getAll()
-    {
+    // Ambil semua stok + relasi produk
+    public function getAll() {
         $sql = "
             SELECT 
                 s.id_stok,
                 s.jumlah_stok,
+                p.id_produk,
                 p.nama_produk
             FROM stok s
             JOIN produk p ON s.id_produk = p.id_produk
             ORDER BY s.id_stok DESC
         ";
-
         return mysqli_query($this->conn, $sql);
     }
 
-    public function insert($id_produk, $jumlah)
-    {
+    public function getProduk() {
+        $sql = "SELECT * FROM produk ORDER BY nama_produk ASC";
+        return mysqli_query($this->conn, $sql);
+    }
+
+    public function insert($id_produk, $jumlah) {
         $stmt = $this->conn->prepare(
             "INSERT INTO stok (id_produk, jumlah_stok) VALUES (?, ?)"
         );
@@ -35,8 +36,15 @@ class Stok
         return $stmt->execute();
     }
 
-    public function delete($id)
-    {
+    public function update($id, $jumlah) {
+        $stmt = $this->conn->prepare(
+            "UPDATE stok SET jumlah_stok=? WHERE id_stok=?"
+        );
+        $stmt->bind_param("ii", $jumlah, $id);
+        return $stmt->execute();
+    }
+
+    public function delete($id) {
         $stmt = $this->conn->prepare(
             "DELETE FROM stok WHERE id_stok=?"
         );
