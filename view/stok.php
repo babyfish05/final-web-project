@@ -18,7 +18,7 @@ require_once __DIR__ . '/partials/header.php';
     <div class="toolbar">
         <button class="btn-tambah" onclick="openTambah()">
             <span class="icon">+</span>
-            <span class="text">Tambah Stok</span>
+            <span class="text">Tambah</span>
         </button>
 
         <div class="search-box">
