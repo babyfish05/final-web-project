@@ -1,34 +1,41 @@
 <?php
-require_once __DIR__ . "/../database/koneksi.php";
+// jangan panggil session_start() di sini, cukup di controller
 
 class UserModel {
 
-    public static function findByEmail($email) {
-        global $conn;
+    private static function connect() {
+        // Ganti sesuai konfigurasi database-mu
+        $host = "localhost";
+        $db   = "skincare";
+        $user = "root";
+        $pass = "";
+        $charset = "utf8mb4";
 
-        $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-        if (!$stmt) {
-            die("Prepare failed: " . $conn->error);
+        $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+        try {
+            $pdo = new PDO($dsn, $user, $pass, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+            ]);
+            return $pdo;
+        } catch (PDOException $e) {
+            die("Database connection failed: " . $e->getMessage());
         }
+    }
 
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        return $stmt->get_result()->fetch_assoc();
+    public static function findByEmail($email) {
+        $pdo = self::connect();
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
+        $stmt->execute(['email' => $email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public static function create($name, $email, $password) {
-        global $conn;
-
-        $hash = password_hash($password, PASSWORD_BCRYPT);
-
-        $sql = "INSERT INTO users (`name`, `email`, `password`) VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-
-        if (!$stmt) {
-            die("Prepare failed: " . $conn->error);
-        }
-
-        $stmt->bind_param("sss", $name, $email, $hash);
-        return $stmt->execute();
+        $pdo = self::connect();
+        $stmt = $pdo->prepare("INSERT INTO users (name, email, password) VALUES (:name, :email, :password)");
+        return $stmt->execute([
+            'name'     => $name,
+            'email'    => $email,
+            'password' => $password
+        ]);
     }
 }
